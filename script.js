@@ -1,6 +1,8 @@
 const worldDiv = document.getElementById("world")
 const joinName = document.getElementById("joinName")
 const joinBtn = document.getElementById("joinBtn")
+const text = document.getElementById("text")
+const textBtn = document.getElementById("textBtn")
 let playerKey = ""
 
 async function postJoin() {
@@ -33,10 +35,29 @@ async function postMove() {
         body: JSON.stringify({
             action: "move",
             player_key: playerKey,
-            
+            x: 200,
+            Y: 100
         })
     })
 }
+
+async function sendMessage() {
+    const resp = await fetch("https://tinkr.tech/sdb/wanderworld/wanderworld", {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            action: "talk",
+            player_key: playerKey,
+            message: text.value
+        })
+    })
+}
+
+textBtn.addEventListener('click', function() {
+    sendMessage()
+})
 
 joinBtn.addEventListener('click', async function() {
     await postJoin()
